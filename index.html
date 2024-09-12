@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background:url(https://static.vecteezy.com/system/resources/previews/012/494/381/non_2x/types-of-weather-conditions-with-sunny-cloudy-windy-rainy-snow-and-stormy-in-template-hand-drawn-cartoon-flat-illustration-vector.jpg)
+        }
+        h1{
+            color: rgb(20, 19, 19);
+        }
+    </style>
+</head>
+<body>
+    <form id="parent-form">
+        <h1>Weather Condition</h1>
+        <input type="text" placeholder="Enter the city" id="city-name">
+        <button>Submit</button>
+    </form>
+    <p id="city-temp"></p>
+</body>
+<script>
+    let form=document.getElementById("parent-form")
+    let cityName=document.getElementById("city-name")
+    let cityTemp=document.getElementById("city-temp")
+    let apiKey="20b8447008d627ae3ec56fbf651fdb17"
+    form.addEventListener("submit",(event)=>{
+        event.preventDefault()
+        cityTemp.innerHTML=""
+        // console.log("city name is ",cityName.value)
+        const url=`https://api.openweathermap.org/data/2.5/weather?q=${cityName.value}&appId=${apiKey}&units=metric`
+        fetch(url)
+        .then((res)=>{
+            console.log(res)
+            return res.json()
+           })
+           .then((res)=>{
+            console.log(res)
+            if (res.cod === "404") {
+                alert("City name not found")
+            }
+            else {
+                let {main,name,sys}=res
+                let div=document.createElement("div")
+                div.classList.add("city")
+                const result=`
+                <h1>${name}</h1>
+                <p>
+                    Temp:${main.temp} <sup>0</sup>C </p>
+                    Country${sys.country}
+                </p>
+        `
+            div.innerHTML=result
+            cityTemp.appendChild(div)   
+            }
+           })
+        })
+           // alert("Poojitha")
+</script>
+</html>
+<!-- html
+input
+button
+p
+form 
+
+javascript
+weather api
+fetch 
+addeventlistener-->
